@@ -12,6 +12,9 @@ const { lowerCase } = require('./helpers/lowercase');
 const app = express();
 
 // Some things might be missing...
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -21,6 +24,7 @@ app.use(morgan('dev'));
 app.set('host', process.env.HOST || 'localhost');
 app.set('port', process.env.PORT || 3333);
 
+app.disable('x-powered-by');
 app.set('views', path.join(__dirname, "views"));
 app.set('view engine', 'hbs');
 app.engine('hbs', exphbs({
@@ -41,5 +45,7 @@ app.use((err, req, res, next) => {
     errors.serverError(err, res)
   } else next();
 });
+
+
 
 module.exports = app;
